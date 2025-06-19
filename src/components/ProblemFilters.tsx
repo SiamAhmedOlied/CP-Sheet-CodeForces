@@ -19,7 +19,7 @@ const ProblemFilters = ({ onSearch, onRatingFilter, onTagFilter, onStatusFilter,
   const [showFilters, setShowFilters] = useState(false);
 
   const ratingRanges = [
-    { label: 'All Ratings', value: '' },
+    { label: 'All Ratings', value: 'all' },
     { label: '800-1200 (Newbie)', value: '800-1200' },
     { label: '1200-1400 (Pupil)', value: '1200-1400' },
     { label: '1400-1600 (Specialist)', value: '1400-1600' },
@@ -31,6 +31,21 @@ const ProblemFilters = ({ onSearch, onRatingFilter, onTagFilter, onStatusFilter,
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
     onSearch(value);
+  };
+
+  const handleRatingFilter = (value: string) => {
+    // Convert 'all' back to empty string for the parent component
+    onRatingFilter(value === 'all' ? '' : value);
+  };
+
+  const handleTagFilter = (value: string) => {
+    // Convert 'all-tags' back to empty string for the parent component
+    onTagFilter(value === 'all-tags' ? '' : value);
+  };
+
+  const handleStatusFilter = (value: string) => {
+    // Convert 'all-problems' back to empty string for the parent component
+    onStatusFilter(value === 'all-problems' ? '' : value);
   };
 
   return (
@@ -61,7 +76,7 @@ const ProblemFilters = ({ onSearch, onRatingFilter, onTagFilter, onStatusFilter,
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-700">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Rating Range</label>
-              <Select onValueChange={onRatingFilter}>
+              <Select onValueChange={handleRatingFilter}>
                 <SelectTrigger className="bg-black/50 border-gray-600 text-white">
                   <SelectValue placeholder="Select rating range" />
                 </SelectTrigger>
@@ -77,12 +92,12 @@ const ProblemFilters = ({ onSearch, onRatingFilter, onTagFilter, onStatusFilter,
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Problem Tag</label>
-              <Select onValueChange={onTagFilter}>
+              <Select onValueChange={handleTagFilter}>
                 <SelectTrigger className="bg-black/50 border-gray-600 text-white">
                   <SelectValue placeholder="Select tag" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-900 border-gray-700 max-h-60">
-                  <SelectItem value="" className="text-white hover:bg-gray-800">All Tags</SelectItem>
+                  <SelectItem value="all-tags" className="text-white hover:bg-gray-800">All Tags</SelectItem>
                   {tags.slice(0, 20).map((tag) => (
                     <SelectItem key={tag} value={tag} className="text-white hover:bg-gray-800">
                       {tag}
@@ -94,12 +109,12 @@ const ProblemFilters = ({ onSearch, onRatingFilter, onTagFilter, onStatusFilter,
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Status</label>
-              <Select onValueChange={onStatusFilter}>
+              <Select onValueChange={handleStatusFilter}>
                 <SelectTrigger className="bg-black/50 border-gray-600 text-white">
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-900 border-gray-700">
-                  <SelectItem value="" className="text-white hover:bg-gray-800">All Problems</SelectItem>
+                  <SelectItem value="all-problems" className="text-white hover:bg-gray-800">All Problems</SelectItem>
                   <SelectItem value="completed" className="text-white hover:bg-gray-800">Completed</SelectItem>
                   <SelectItem value="not-completed" className="text-white hover:bg-gray-800">Not Completed</SelectItem>
                 </SelectContent>
