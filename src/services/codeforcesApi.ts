@@ -10,9 +10,16 @@ class CodeforcesAPI {
     const rand = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     const currentTime = Math.floor(Date.now() / 1000);
     
-    const paramString = Object.keys(params)
+    // Add time parameter to params for signature generation
+    const allParams = {
+      ...params,
+      apiKey: API_KEY,
+      time: currentTime
+    };
+    
+    const paramString = Object.keys(allParams)
       .sort()
-      .map(key => `${key}=${params[key]}`)
+      .map(key => `${key}=${allParams[key]}`)
       .join('&');
     
     const stringToHash = `${rand}/${methodName}?${paramString}#${API_SECRET}`;
@@ -23,10 +30,13 @@ class CodeforcesAPI {
 
   private async makeRequest(methodName: string, params: Record<string, any> = {}) {
     try {
+      const currentTime = Math.floor(Date.now() / 1000);
       const apiSig = this.generateApiSig(methodName, params);
+      
       const queryParams = new URLSearchParams({
         ...params,
         apiKey: API_KEY,
+        time: currentTime.toString(),
         apiSig: apiSig
       });
 
