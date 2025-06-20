@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User, Award, TrendingUp, Calendar } from 'lucide-react';
@@ -9,10 +8,10 @@ import { Card, CardContent } from '@/components/ui/card';
 
 interface UserData {
   handle: string;
-  rating: number;
-  maxRating: number;
-  rank: string;
-  maxRank: string;
+  rating?: number;
+  maxRating?: number;
+  rank?: string;
+  maxRank?: string;
   avatar: string;
   firstName?: string;
   lastName?: string;
@@ -27,6 +26,7 @@ const UserProfile = () => {
     queryFn: async () => {
       if (!handle) return null;
       const users = await codeforcesApi.getUserInfo(handle);
+      console.log('User data from API:', users[0]); // Debug log
       return users[0] as UserData;
     },
     enabled: !!handle,
@@ -72,17 +72,21 @@ const UserProfile = () => {
   };
 
   // Function to get the appropriate badge based on rating
-  const getRatingBadge = (rating: number) => {
-    if (rating === 0) return { text: 'Unrated', class: 'rating-newbie' };
-    if (rating < 1200) return { text: 'Newbie', class: 'rating-newbie' };
-    if (rating < 1400) return { text: 'Pupil', class: 'rating-pupil' };
-    if (rating < 1600) return { text: 'Specialist', class: 'rating-specialist' };
-    if (rating < 1900) return { text: 'Expert', class: 'rating-expert' };
-    if (rating < 2100) return { text: 'Candidate Master', class: 'rating-candidate-master' };
-    if (rating < 2300) return { text: 'Master', class: 'rating-master' };
-    if (rating < 2400) return { text: 'International Master', class: 'rating-international-master' };
-    if (rating < 2600) return { text: 'Grandmaster', class: 'rating-grandmaster' };
-    if (rating < 3000) return { text: 'International Grandmaster', class: 'rating-international-grandmaster' };
+  const getRatingBadge = (rating: number | undefined) => {
+    // Handle undefined or null rating values
+    const actualRating = rating || 0;
+    console.log('Rating for badge calculation:', actualRating); // Debug log
+    
+    if (actualRating === 0) return { text: 'Unrated', class: 'rating-newbie' };
+    if (actualRating < 1200) return { text: 'Newbie', class: 'rating-newbie' };
+    if (actualRating < 1400) return { text: 'Pupil', class: 'rating-pupil' };
+    if (actualRating < 1600) return { text: 'Specialist', class: 'rating-specialist' };
+    if (actualRating < 1900) return { text: 'Expert', class: 'rating-expert' };
+    if (actualRating < 2100) return { text: 'Candidate Master', class: 'rating-candidate-master' };
+    if (actualRating < 2300) return { text: 'Master', class: 'rating-master' };
+    if (actualRating < 2400) return { text: 'International Master', class: 'rating-international-master' };
+    if (actualRating < 2600) return { text: 'Grandmaster', class: 'rating-grandmaster' };
+    if (actualRating < 3000) return { text: 'International Grandmaster', class: 'rating-international-grandmaster' };
     return { text: 'Legendary Grandmaster', class: 'rating-legendary-grandmaster' };
   };
 
@@ -152,7 +156,8 @@ const UserProfile = () => {
     );
   }
 
-  const ratingBadge = getRatingBadge(userData.rating);
+  const ratingBadge = getRatingBadge(userData?.rating);
+  const currentRating = userData?.rating || 0;
 
   return (
     <Card className="terminal-window">
@@ -169,7 +174,7 @@ const UserProfile = () => {
             <div 
               className={`absolute -bottom-1 -right-1 px-2 py-1 rounded-full text-xs font-bold cursor-pointer hover:scale-110 transition-transform duration-200 ${ratingBadge.class}`}
               onClick={handleProfileClick}
-              title={`${ratingBadge.text} (${userData.rating})`}
+              title={`${ratingBadge.text} (${currentRating})`}
             >
               <Award className="w-3 h-3" />
             </div>
@@ -201,7 +206,7 @@ const UserProfile = () => {
                   onClick={handleProfileClick}
                   title="Click to visit Codeforces profile"
                 >
-                  {userData.rating} ({ratingBadge.text})
+                  {currentRating} ({ratingBadge.text})
                 </span>
               </div>
               
