@@ -9,7 +9,231 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      problem_progress: {
+        Row: {
+          attempts: number | null
+          contest_id: number
+          created_at: string
+          first_attempt_at: string | null
+          id: string
+          last_attempt_at: string | null
+          notes: string | null
+          problem_index: string
+          problem_name: string
+          problem_rating: number | null
+          problem_tags: string[] | null
+          solved_at: string | null
+          status: string
+          updated_at: string
+          user_handle: string
+        }
+        Insert: {
+          attempts?: number | null
+          contest_id: number
+          created_at?: string
+          first_attempt_at?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          notes?: string | null
+          problem_index: string
+          problem_name: string
+          problem_rating?: number | null
+          problem_tags?: string[] | null
+          solved_at?: string | null
+          status?: string
+          updated_at?: string
+          user_handle: string
+        }
+        Update: {
+          attempts?: number | null
+          contest_id?: number
+          created_at?: string
+          first_attempt_at?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          notes?: string | null
+          problem_index?: string
+          problem_name?: string
+          problem_rating?: number | null
+          problem_tags?: string[] | null
+          solved_at?: string | null
+          status?: string
+          updated_at?: string
+          user_handle?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problem_progress_user_handle_fkey"
+            columns: ["user_handle"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["codeforces_handle"]
+          },
+        ]
+      }
+      user_profiles: {
+        Row: {
+          avatar_url: string | null
+          codeforces_handle: string
+          contribution: number | null
+          created_at: string
+          current_rating: number | null
+          email: string | null
+          friend_count: number | null
+          full_name: string | null
+          id: string
+          last_sync: string | null
+          max_rank: string | null
+          max_rating: number | null
+          rank: string | null
+          registration_date: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          codeforces_handle: string
+          contribution?: number | null
+          created_at?: string
+          current_rating?: number | null
+          email?: string | null
+          friend_count?: number | null
+          full_name?: string | null
+          id?: string
+          last_sync?: string | null
+          max_rank?: string | null
+          max_rating?: number | null
+          rank?: string | null
+          registration_date?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          codeforces_handle?: string
+          contribution?: number | null
+          created_at?: string
+          current_rating?: number | null
+          email?: string | null
+          friend_count?: number | null
+          full_name?: string | null
+          id?: string
+          last_sync?: string | null
+          max_rank?: string | null
+          max_rating?: number | null
+          rank?: string | null
+          registration_date?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_rating_history: {
+        Row: {
+          contest_id: number
+          contest_name: string
+          created_at: string
+          id: string
+          new_rating: number
+          old_rating: number
+          participation_time: string
+          rank: number
+          rating_change: number
+          user_handle: string
+        }
+        Insert: {
+          contest_id: number
+          contest_name: string
+          created_at?: string
+          id?: string
+          new_rating: number
+          old_rating: number
+          participation_time: string
+          rank: number
+          rating_change: number
+          user_handle: string
+        }
+        Update: {
+          contest_id?: number
+          contest_name?: string
+          created_at?: string
+          id?: string
+          new_rating?: number
+          old_rating?: number
+          participation_time?: string
+          rank?: number
+          rating_change?: number
+          user_handle?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_rating_history_user_handle_fkey"
+            columns: ["user_handle"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["codeforces_handle"]
+          },
+        ]
+      }
+      user_submissions: {
+        Row: {
+          author: string
+          contest_id: number | null
+          created_at: string
+          creation_time: string
+          id: string
+          memory_consumed_bytes: number | null
+          passed_test_count: number | null
+          points: number | null
+          problem_index: string | null
+          programming_language: string
+          submission_id: number
+          test_set: string | null
+          time_consumed_millis: number | null
+          user_handle: string
+          verdict: string
+        }
+        Insert: {
+          author: string
+          contest_id?: number | null
+          created_at?: string
+          creation_time: string
+          id?: string
+          memory_consumed_bytes?: number | null
+          passed_test_count?: number | null
+          points?: number | null
+          problem_index?: string | null
+          programming_language: string
+          submission_id: number
+          test_set?: string | null
+          time_consumed_millis?: number | null
+          user_handle: string
+          verdict: string
+        }
+        Update: {
+          author?: string
+          contest_id?: number | null
+          created_at?: string
+          creation_time?: string
+          id?: string
+          memory_consumed_bytes?: number | null
+          passed_test_count?: number | null
+          points?: number | null
+          problem_index?: string | null
+          programming_language?: string
+          submission_id?: number
+          test_set?: string | null
+          time_consumed_millis?: number | null
+          user_handle?: string
+          verdict?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_submissions_user_handle_fkey"
+            columns: ["user_handle"]
+            isOneToOne: false
+            referencedRelation: "user_profiles"
+            referencedColumns: ["codeforces_handle"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

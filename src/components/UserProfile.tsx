@@ -65,6 +65,27 @@ const UserProfile = () => {
     }
   };
 
+  const handleProfileClick = () => {
+    if (userData?.handle) {
+      window.open(`https://codeforces.com/profile/${userData.handle}`, '_blank');
+    }
+  };
+
+  // Function to get the appropriate badge based on rating
+  const getRatingBadge = (rating: number) => {
+    if (rating === 0) return { text: 'Unrated', class: 'rating-newbie' };
+    if (rating < 1200) return { text: 'Newbie', class: 'rating-newbie' };
+    if (rating < 1400) return { text: 'Pupil', class: 'rating-pupil' };
+    if (rating < 1600) return { text: 'Specialist', class: 'rating-specialist' };
+    if (rating < 1900) return { text: 'Expert', class: 'rating-expert' };
+    if (rating < 2100) return { text: 'Candidate Master', class: 'rating-candidate-master' };
+    if (rating < 2300) return { text: 'Master', class: 'rating-master' };
+    if (rating < 2400) return { text: 'International Master', class: 'rating-international-master' };
+    if (rating < 2600) return { text: 'Grandmaster', class: 'rating-grandmaster' };
+    if (rating < 3000) return { text: 'International Grandmaster', class: 'rating-international-grandmaster' };
+    return { text: 'Legendary Grandmaster', class: 'rating-legendary-grandmaster' };
+  };
+
   if (!handle) {
     return (
       <Card className="terminal-window">
@@ -131,6 +152,8 @@ const UserProfile = () => {
     );
   }
 
+  const ratingBadge = getRatingBadge(userData.rating);
+
   return (
     <Card className="terminal-window">
       <CardContent className="p-6">
@@ -139,10 +162,16 @@ const UserProfile = () => {
             <img
               src={userData.avatar || `https://userpic.codeforces.org/no-title.jpg`}
               alt={userData.handle}
-              className="w-16 h-16 rounded-full border-2 border-green-400 pulse-neon"
+              className="w-16 h-16 rounded-full border-2 border-green-400 pulse-neon cursor-pointer hover:scale-105 transition-transform duration-200"
+              onClick={handleProfileClick}
+              title="Click to visit Codeforces profile"
             />
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-              <Award className="w-3 h-3 text-black" />
+            <div 
+              className={`absolute -bottom-1 -right-1 px-2 py-1 rounded-full text-xs font-bold cursor-pointer hover:scale-110 transition-transform duration-200 ${ratingBadge.class}`}
+              onClick={handleProfileClick}
+              title={`${ratingBadge.text} (${userData.rating})`}
+            >
+              <Award className="w-3 h-3" />
             </div>
           </div>
           
@@ -167,8 +196,12 @@ const UserProfile = () => {
             <div className="flex items-center space-x-4 mt-2">
               <div className="flex items-center space-x-1">
                 <TrendingUp className="w-4 h-4 text-purple-400" />
-                <span className={`text-sm font-bold px-2 py-1 rounded ${getRatingClass(userData.rating)}`}>
-                  {userData.rating} ({getRatingTitle(userData.rating)})
+                <span 
+                  className={`text-sm font-bold px-3 py-1 rounded cursor-pointer hover:scale-105 transition-transform duration-200 ${ratingBadge.class}`}
+                  onClick={handleProfileClick}
+                  title="Click to visit Codeforces profile"
+                >
+                  {userData.rating} ({ratingBadge.text})
                 </span>
               </div>
               
