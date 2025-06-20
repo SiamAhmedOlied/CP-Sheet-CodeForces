@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -262,4 +261,43 @@
 
 .pulse-neon {
   animation: pulse-neon 2s ease-in-out infinite;
+}
+
+/* Verification Badge Animations */
+@keyframes golden-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.8));
+  }
+  50% { 
+    filter: drop-shadow(0 0 15px rgba(251, 191, 36, 1));
+  }
+}
+
+@keyframes blue-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8));
+  }
+  50% { 
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 1));
+  }
+}
+
+.verification-golden {
+  animation: golden-pulse 2s ease-in-out infinite;
+}
+
+.verification-blue {
+  animation: blue-pulse 2s ease-in-out infinite;
+}
+
+/* Enhanced table styling for leaderboard */
+.leaderboard-table {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.leaderboard-row:hover {
+  background: rgba(0, 255, 65, 0.05);
+  transform: translateX(2px);
+  transition: all 0.2s ease;
 }

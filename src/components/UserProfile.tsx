@@ -5,6 +5,8 @@ import { codeforcesApi, getRatingClass, getRatingTitle } from '@/services/codefo
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
+import { getVerificationBadge } from '@/services/verificationService';
+import { CheckCircle, Crown } from 'lucide-react';
 
 interface UserData {
   handle: string;
@@ -88,6 +90,27 @@ const UserProfile = () => {
     if (actualRating < 2600) return { text: 'Grandmaster', class: 'rating-grandmaster' };
     if (actualRating < 3000) return { text: 'International Grandmaster', class: 'rating-international-grandmaster' };
     return { text: 'Legendary Grandmaster', class: 'rating-legendary-grandmaster' };
+  };
+
+  // Verification Badge Component
+  const VerificationBadge = ({ handle, rating }: { handle: string; rating?: number }) => {
+    const badge = getVerificationBadge(handle, rating);
+    
+    if (badge.type === 'none') return null;
+    
+    return (
+      <div 
+        className="absolute -top-1 -right-1 cursor-pointer hover:scale-110 transition-transform duration-200"
+        onClick={handleProfileClick}
+        title={badge.description}
+      >
+        {badge.type === 'golden' ? (
+          <Crown className="w-5 h-5 text-yellow-500 drop-shadow-lg" />
+        ) : (
+          <CheckCircle className="w-5 h-5 text-blue-500 drop-shadow-lg" />
+        )}
+      </div>
+    );
   };
 
   if (!handle) {
@@ -178,6 +201,7 @@ const UserProfile = () => {
             >
               <Award className="w-3 h-3" />
             </div>
+            <VerificationBadge handle={userData.handle} rating={userData.rating} />
           </div>
           
           <div className="flex-1">
