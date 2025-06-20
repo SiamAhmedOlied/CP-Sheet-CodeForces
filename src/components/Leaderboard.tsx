@@ -54,9 +54,16 @@ const Leaderboard = () => {
     }
   };
 
-  // Get unique countries and cities for filters
-  const countries = [...new Set(leaderboardData?.map((user: any) => user.country).filter(Boolean) || [])];
-  const cities = [...new Set(leaderboardData?.map((user: any) => user.city).filter(Boolean) || [])];
+  // Get unique countries and cities for filters with proper typing
+  const countries: string[] = [...new Set(
+    leaderboardData?.map((user: any) => user.country)
+      .filter((country): country is string => Boolean(country))
+  )] || [];
+  
+  const cities: string[] = [...new Set(
+    leaderboardData?.map((user: any) => user.city)
+      .filter((city): city is string => Boolean(city))
+  )] || [];
 
   // Filter users based on search and location filters
   const filteredUsers = leaderboardData?.filter((user: any) => {
