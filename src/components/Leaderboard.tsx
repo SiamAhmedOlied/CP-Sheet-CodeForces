@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,15 +54,19 @@ const Leaderboard = () => {
   };
 
   // Get unique countries and cities for filters with proper typing
-  const countries: string[] = [...new Set(
-    leaderboardData?.map((user: any) => user.country)
-      .filter((country): country is string => Boolean(country))
-  )] || [];
+  const countries: string[] = leaderboardData ? 
+    [...new Set(
+      leaderboardData
+        .map((user: any) => user.country)
+        .filter((country): country is string => typeof country === 'string' && country.length > 0)
+    )] : [];
   
-  const cities: string[] = [...new Set(
-    leaderboardData?.map((user: any) => user.city)
-      .filter((city): city is string => Boolean(city))
-  )] || [];
+  const cities: string[] = leaderboardData ?
+    [...new Set(
+      leaderboardData
+        .map((user: any) => user.city)
+        .filter((city): city is string => typeof city === 'string' && city.length > 0)
+    )] : [];
 
   // Filter users based on search and location filters
   const filteredUsers = leaderboardData?.filter((user: any) => {
