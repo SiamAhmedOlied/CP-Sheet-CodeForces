@@ -55,18 +55,18 @@ const Leaderboard = () => {
 
   // Get unique countries and cities for filters with proper typing
   const countries: string[] = leaderboardData ? 
-    [...new Set(
+    Array.from(new Set<string>(
       leaderboardData
         .map((user: any) => user.country)
-        .filter((country): country is string => typeof country === 'string' && country.length > 0)
-    )] : [];
+        .filter((country: any): country is string => typeof country === 'string' && country.length > 0)
+    )) : [];
   
   const cities: string[] = leaderboardData ?
-    [...new Set(
+    Array.from(new Set<string>(
       leaderboardData
         .map((user: any) => user.city)
-        .filter((city): city is string => typeof city === 'string' && city.length > 0)
-    )] : [];
+        .filter((city: any): city is string => typeof city === 'string' && city.length > 0)
+    )) : [];
 
   // Filter users based on search and location filters
   const filteredUsers = leaderboardData?.filter((user: any) => {
