@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProblemSet from "./pages/ProblemSet";
 import Contest from "./pages/Contest";
+import LeaderboardPage from "./pages/Leaderboard";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/problemset" element={<ProblemSet />} />
           <Route path="/contest" element={<Contest />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

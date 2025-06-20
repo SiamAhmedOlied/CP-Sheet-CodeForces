@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Terminal, Trophy, Target, User } from 'lucide-react';
+import { Terminal, Trophy, Target, User, Users } from 'lucide-react';
 
 const Navigation = () => {
   const location = useLocation();
@@ -9,6 +9,7 @@ const Navigation = () => {
     { path: '/', label: 'Dashboard', icon: Terminal },
     { path: '/problemset', label: 'Problem Set', icon: Target },
     { path: '/contest', label: 'Contests', icon: Trophy },
+    { path: '/leaderboard', label: 'Leaderboard', icon: Users },
   ];
 
   return (
